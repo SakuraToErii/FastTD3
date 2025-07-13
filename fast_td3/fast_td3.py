@@ -305,10 +305,11 @@ class Actor(nn.Module):
         if deterministic:
             return act
 
+        # 均值为0，标准差为 self.noise_scales
         noise = torch.randn_like(act) * self.noise_scales
 
         ##NOTE - 不裁剪的好处：大多数标准的强化学习环境（如 Gymnasium/MuJoCo）在接收到一个动作后，会自动将该动作裁剪到其合法的动作空间范围内。未裁剪的、带有“意图”的动作（即使这个动作在物理上无法被完全执行），我们可以让 Critic 学习到一个更平滑、信息更丰富的 Q 函数。这个更准确的 Q 函数反过来又能为 Actor 的更新提供更有效的梯度，帮助策略更快地收敛到最优。
-        return act + noise
+        return act + noise  # 均值为act，标准差为 self.noise_scales
 
 
 class MultiTaskActor(Actor):

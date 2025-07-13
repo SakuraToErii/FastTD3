@@ -475,9 +475,11 @@ def main():
             生成一个与动作形状相同、符合正态分布的随机噪声，然后通过 .mul() 调整其幅度，
             再通过.clamp() 限制其范围，最终得到一个有界且平滑的噪声。
             z = μ + σ * ϵ
-            这里policy_noise是σ（标准差）
+            这里policy_noise是σ（标准差），ϵ 是标准正态分布采样
             """
-            clipped_noise = torch.randn_like(actions)  # 标准正分布噪声
+            clipped_noise = torch.randn_like(
+                actions
+            )  # 标准正分布噪声，均值为0 标准差为 1
             clipped_noise = clipped_noise.mul(policy_noise).clamp(
                 -noise_clip, noise_clip
             )  # mul 是张量的逐元素乘法

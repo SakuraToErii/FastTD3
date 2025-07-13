@@ -5,4 +5,6 @@ fast_td3/TDDR.py
 wandb
 *.pyc
 .ipynb_checkpoints
+/new4
+*mixed*
 fast_td3.egg-info/
